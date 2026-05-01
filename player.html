@@ -6,107 +6,158 @@
   <title>Reproductor</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
+    :root {
+      --bg:           #1a1a2e;
+      --header-bg:    #1a1a2e;
+      --header-border:#2a2a4e;
+      --title:        #a8d8ea;
+      --btn:          #a8d8ea;
+      --btn-hover-bg: #a8d8ea;
+      --btn-hover-fg: #1a1a2e;
+      --back:         #f7cac9;
+      --back-hover-bg:#f7cac9;
+      --back-hover-fg:#1a1a2e;
+      --lyrics:       #d8d8d8;
+      --loading:      #666;
+    }
+    body.day {
+      --bg:           #f4f1eb;
+      --header-bg:    #edeae3;
+      --header-border:#ccc;
+      --title:        #2a6a88;
+      --btn:          #2a6a88;
+      --btn-hover-bg: #2a6a88;
+      --btn-hover-fg: #fff;
+      --back:         #a04535;
+      --back-hover-bg:#a04535;
+      --back-hover-fg:#fff;
+      --lyrics:       #2c2c2c;
+      --loading:      #999;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: #1a1a2e;
-      color: #e0e0e0;
+      background: var(--bg);
+      color: var(--lyrics);
       height: 100vh;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      transition: background 0.3s, color 0.3s;
     }
 
     #header {
-      background: #1a1a2e;
-      border-bottom: 1px solid #2a2a4e;
-      padding: 16px 20px;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--header-border);
+      padding: 12px 20px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-shrink: 0;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      transition: background 0.3s, border-color 0.3s;
     }
 
     #title {
-      font-size: 1.4rem;
-      color: #a8d8ea;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--title);
       text-align: center;
+      transition: color 0.3s;
     }
 
     audio {
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
     }
 
-    .nav-buttons {
+    /* Controls row */
+    .controls {
       display: flex;
-      gap: 16px;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .nav-btn {
+    .sep {
+      width: 1px;
+      height: 18px;
+      background: var(--header-border);
+      margin: 0 2px;
+    }
+
+    .ctrl-btn {
       background: none;
-      border: 1px solid #a8d8ea;
-      color: #a8d8ea;
-      font-size: 1.4rem;
-      padding: 8px 20px;
-      border-radius: 8px;
+      border: 1px solid var(--btn);
+      color: var(--btn);
+      font-size: 0.78rem;
+      padding: 4px 11px;
+      border-radius: 20px;
       cursor: pointer;
-      transition: background 0.2s, color 0.2s;
+      transition: background 0.18s, color 0.18s, border-color 0.3s;
+      line-height: 1.4;
+      white-space: nowrap;
     }
-    .nav-btn:hover:not(:disabled) {
-      background: #a8d8ea;
-      color: #1a1a2e;
+    .ctrl-btn:hover:not(:disabled) {
+      background: var(--btn-hover-bg);
+      color: var(--btn-hover-fg);
     }
-    .nav-btn:disabled {
-      opacity: 0.25;
+    .ctrl-btn:disabled {
+      opacity: 0.22;
       cursor: default;
     }
 
-    .back {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: #f7cac9;
-      text-decoration: none;
-      font-size: 0.95rem;
-      border: 1px solid #f7cac9;
-      padding: 7px 16px;
-      border-radius: 8px;
-      transition: background 0.2s, color 0.2s;
-    }
-    .back:hover {
-      background: #f7cac9;
-      color: #1a1a2e;
+    .ctrl-btn.theme-btn {
+      font-size: 0.88rem;
+      padding: 4px 10px;
     }
 
+    .back {
+      color: var(--back);
+      text-decoration: none;
+      font-size: 0.78rem;
+      border: 1px solid var(--back);
+      padding: 4px 12px;
+      border-radius: 20px;
+      transition: background 0.18s, color 0.18s, border-color 0.3s;
+      white-space: nowrap;
+    }
+    .back:hover {
+      background: var(--back-hover-bg);
+      color: var(--back-hover-fg);
+    }
+
+    /* Lyrics */
     #lyrics-container {
       flex: 1;
       overflow-y: auto;
-      padding: 28px 24px 48px;
+      padding: 24px 24px 48px;
     }
 
     #lyrics {
       white-space: pre-wrap;
       line-height: 1.9;
       font-size: 1rem;
-      color: #e0e0e0;
+      color: var(--lyrics);
       max-width: 680px;
       margin: 0 auto;
+      transition: font-size 0.2s, color 0.3s;
     }
-
     #lyrics.loading {
-      color: #888;
+      color: var(--loading);
       font-style: italic;
     }
 
+    /* Tap overlay */
     #tap-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(26, 26, 46, 0.92);
+      background: rgba(26,26,46,0.92);
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -116,13 +167,13 @@
     }
     #tap-overlay.visible { display: flex; }
     #tap-icon {
-      font-size: 5rem;
+      font-size: 4rem;
       animation: pulse 1.4s ease-in-out infinite;
     }
-    #tap-label { font-size: 1.3rem; color: #a8d8ea; }
+    #tap-label { font-size: 1.2rem; color: #a8d8ea; }
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.15); opacity: 0.7; }
+      50%       { transform: scale(1.15); opacity: 0.7; }
     }
   </style>
 </head>
@@ -131,11 +182,28 @@
   <div id="header">
     <h1 id="title"></h1>
     <audio id="player" controls playsinline></audio>
-    <div class="nav-buttons">
-      <button class="nav-btn" id="btn-prev">&#9664;&#9664;</button>
-      <button class="nav-btn" id="btn-next">&#9654;&#9654;</button>
+
+    <div class="controls">
+      <!-- Prev / Next -->
+      <button class="ctrl-btn" id="btn-prev">&#9664;&#9664; Anterior</button>
+      <button class="ctrl-btn" id="btn-next">Següent &#9654;&#9654;</button>
+
+      <div class="sep"></div>
+
+      <!-- Day / Night -->
+      <button class="ctrl-btn theme-btn" id="btn-theme" title="Mode dia / nit">🌙</button>
+
+      <div class="sep"></div>
+
+      <!-- Font size -->
+      <button class="ctrl-btn" id="btn-font-down" title="Reduir lletra">A−</button>
+      <button class="ctrl-btn" id="btn-font-up"   title="Augmentar lletra">A+</button>
+
+      <div class="sep"></div>
+
+      <!-- Back -->
+      <a class="back" href="ligabue.html">&#8592; Playlist</a>
     </div>
-    <a class="back" href="ligabue.html">&#8592; Torna a la playlist</a>
   </div>
 
   <div id="lyrics-container">
@@ -149,44 +217,65 @@
 
   <script>
     const PLAYLIST = [
-      { title: "Certe notti",                    url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/27_-_Certe_notti_g6zmlb.mp4",                                    lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652260/27_-_Certe_notti_jpsfkc.txt" },
-      { title: "Questa e la mia vita",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/28_-_Questa_e_la_mia_vita_hr9s7z.mp4",                       lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652259/28_-_Questa_e_la_mia_vita_bybvz6.txt" },
-      { title: "Piccola stella senza cielo",     url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/29_-_Piccola_stella_senza_cielo_fflcwt.mp4",               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652258/29_-_Piccola_stella_senza_cielo_nhxh52.txt" },
-      { title: "Tra palco e realta",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/44_-_Tra_palco_e_realta_wqya8r.mp4",                        lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651542/lyrics/44%20-%20Tra%20palco%20e%20realta.txt" },
-      { title: "Balliamo sul mondo",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/45_-_Balliamo_sul_mondo_pnwr5o.mp4",                        lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651543/lyrics/45%20-%20Balliamo%20sul%20mondo.txt" },
-      { title: "Urlando contro il cielo",        url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/46_-_Urlando_contro_il_cielo_h6ksjy.mp4",                  lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651548/lyrics/46%20-%20Urlando%20contro%20il%20cielo.txt" },
-      { title: "Figlio d'un cane",               url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/47_-_Figlio_d_un_cane_ahs0en.mp4",                         lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651548/lyrics/47%20-%20Figlio%20d%27un%20cane.txt" },
-      { title: "I Duri Hanno Due Cuori",         url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/48_-_I_Duri_Hanno_Due_Cuori_b31tbp.mp4",                   lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651549/lyrics/48%20-%20I%20Duri%20Hanno%20Due%20Cuori.txt" },
-      { title: "Lambrusco & pop corn",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/49_-_Lambrusco_pop_corn_udpidg.mp4",                       lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651590/lyrics/49%20-%20Lambrusco%20and%20pop%20corn.txt" },
-      { title: "Hai Un Momento Dio",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/50_-_Hai_Un_Momento_Dio_wtstkh.mp4",                       lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651552/lyrics/50%20-%20Hai%20Un%20Momento%20Dio.txt" },
-      { title: "Viva",                           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/51_-_Viva_ooghgj.mp4",                                    lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651554/lyrics/51%20-%20Viva.txt" },
-      { title: "Quella Che Non Sei",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/52_-_Quella_Che_Non_Sei_k50kaf.mp4",                       lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651556/lyrics/52%20-%20Quella%20Che%20Non%20Sei.txt" },
-      { title: "Non E Tempo Per Noi",            url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/53_-_Non_E_Tempo_Per_Noi_sqcwiv.mp4",                      lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651558/lyrics/53%20-%20Non%20E%20Tempo%20Per%20Noi.txt" },
-      { title: "Leggero",                        url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/54_-_Leggero_tvqvmi.mp4",                                  lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651558/lyrics/54%20-%20Leggero.txt" },
-      { title: "Ho perso le parole",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/55_-_Ho_perso_le_parole_mxkpq6.mp4",                       lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651560/lyrics/55%20-%20Ho%20perso%20le%20parole.txt" },
-      { title: "A che ora e la fine del mondo",  url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/56_-_A_che_ora_e_la_fine_del_mondo_tim85m.mp4",           lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651561/lyrics/56%20-%20A%20che%20ora%20e%20la%20fine%20del%20mondo.txt" },
-      { title: "Non e tempo per noi",            url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/57_-_Non_e_tempo_per_noi_mwrmvp.mp4",                      lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651563/lyrics/57%20-%20Non%20e%20tempo%20per%20noi.txt" },
-      { title: "Si viene e si va",               url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/58_-_Si_viene_e_si_va_pwibfk.mp4",                         lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651564/lyrics/58%20-%20Si%20viene%20e%20si%20va.txt" },
-      { title: "Il giorno dei giorni",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645818/59_-_Il_giorno_dei_giorni_eldnzw.mp4",                     lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651564/lyrics/59%20-%20Il%20giorno%20dei%20giorni.txt" },
-      { title: "Eri bellissima",                 url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/60_-_Eri_bellissima_nmy6hb.mp4",                           lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651565/lyrics/60%20-%20Eri%20bellissima.txt" },
-      { title: "Happy hour",                     url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645818/61_-_Happy_hour_peqfjs.mp4",                               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651565/lyrics/61%20-%20Happy%20hour.txt" },
+      { title: "Certe notti",                    url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/27_-_Certe_notti_g6zmlb.mp4",                          lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652260/27_-_Certe_notti_jpsfkc.txt" },
+      { title: "Questa e la mia vita",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/28_-_Questa_e_la_mia_vita_hr9s7z.mp4",               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652259/28_-_Questa_e_la_mia_vita_bybvz6.txt" },
+      { title: "Piccola stella senza cielo",     url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/29_-_Piccola_stella_senza_cielo_fflcwt.mp4",         lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652258/29_-_Piccola_stella_senza_cielo_nhxh52.txt" },
+      { title: "Tra palco e realta",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/44_-_Tra_palco_e_realta_wqya8r.mp4",                  lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651542/lyrics/44%20-%20Tra%20palco%20e%20realta.txt" },
+      { title: "Balliamo sul mondo",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/45_-_Balliamo_sul_mondo_pnwr5o.mp4",                  lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651543/lyrics/45%20-%20Balliamo%20sul%20mondo.txt" },
+      { title: "Urlando contro il cielo",        url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/46_-_Urlando_contro_il_cielo_h6ksjy.mp4",            lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651548/lyrics/46%20-%20Urlando%20contro%20il%20cielo.txt" },
+      { title: "Figlio d'un cane",               url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/47_-_Figlio_d_un_cane_ahs0en.mp4",                   lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651548/lyrics/47%20-%20Figlio%20d%27un%20cane.txt" },
+      { title: "I Duri Hanno Due Cuori",         url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/48_-_I_Duri_Hanno_Due_Cuori_b31tbp.mp4",             lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651549/lyrics/48%20-%20I%20Duri%20Hanno%20Due%20Cuori.txt" },
+      { title: "Lambrusco & pop corn",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/49_-_Lambrusco_pop_corn_udpidg.mp4",                 lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651590/lyrics/49%20-%20Lambrusco%20and%20pop%20corn.txt" },
+      { title: "Hai Un Momento Dio",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/50_-_Hai_Un_Momento_Dio_wtstkh.mp4",                 lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651552/lyrics/50%20-%20Hai%20Un%20Momento%20Dio.txt" },
+      { title: "Viva",                           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/51_-_Viva_ooghgj.mp4",                               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651554/lyrics/51%20-%20Viva.txt" },
+      { title: "Quella Che Non Sei",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/52_-_Quella_Che_Non_Sei_k50kaf.mp4",                 lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651556/lyrics/52%20-%20Quella%20Che%20Non%20Sei.txt" },
+      { title: "Non E Tempo Per Noi",            url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/53_-_Non_E_Tempo_Per_Noi_sqcwiv.mp4",               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651558/lyrics/53%20-%20Non%20E%20Tempo%20Per%20Noi.txt" },
+      { title: "Leggero",                        url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/54_-_Leggero_tvqvmi.mp4",                           lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651558/lyrics/54%20-%20Leggero.txt" },
+      { title: "Ho perso le parole",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/55_-_Ho_perso_le_parole_mxkpq6.mp4",               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651560/lyrics/55%20-%20Ho%20perso%20le%20parole.txt" },
+      { title: "A che ora e la fine del mondo",  url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/56_-_A_che_ora_e_la_fine_del_mondo_tim85m.mp4",    lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651561/lyrics/56%20-%20A%20che%20ora%20e%20la%20fine%20del%20mondo.txt" },
+      { title: "Non e tempo per noi",            url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/57_-_Non_e_tempo_per_noi_mwrmvp.mp4",               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651563/lyrics/57%20-%20Non%20e%20tempo%20per%20noi.txt" },
+      { title: "Si viene e si va",               url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/58_-_Si_viene_e_si_va_pwibfk.mp4",                   lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651564/lyrics/58%20-%20Si%20viene%20e%20si%20va.txt" },
+      { title: "Il giorno dei giorni",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645818/59_-_Il_giorno_dei_giorni_eldnzw.mp4",               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651564/lyrics/59%20-%20Il%20giorno%20dei%20giorni.txt" },
+      { title: "Eri bellissima",                 url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/60_-_Eri_bellissima_nmy6hb.mp4",                     lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651565/lyrics/60%20-%20Eri%20bellissima.txt" },
+      { title: "Happy hour",                     url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645818/61_-_Happy_hour_peqfjs.mp4",                         lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651565/lyrics/61%20-%20Happy%20hour.txt" },
     ];
 
-    // iOS Safari reads the video container duration instead of the audio track duration.
-    // Requesting the file as MP3 via Cloudinary's f_mp3 transformation fixes this.
+    // iOS Safari reads video container duration; MP3 via Cloudinary f_mp3 fixes this.
     function toAudioUrl(mp4url) {
-      return mp4url
-        .replace('/video/upload/', '/video/upload/f_mp3/')
-        .replace(/\.mp4$/, '.mp3');
+      return mp4url.replace('/video/upload/', '/video/upload/f_mp3/').replace(/\.mp4$/, '.mp3');
     }
 
     const audio           = document.getElementById('player');
     const overlay         = document.getElementById('tap-overlay');
     const btnPrev         = document.getElementById('btn-prev');
     const btnNext         = document.getElementById('btn-next');
+    const btnTheme        = document.getElementById('btn-theme');
+    const btnFontUp       = document.getElementById('btn-font-up');
+    const btnFontDown     = document.getElementById('btn-font-down');
     const lyricsEl        = document.getElementById('lyrics');
     const lyricsContainer = document.getElementById('lyrics-container');
 
+    // Font size
+    const FONT_SIZES = [0.82, 0.91, 1.0, 1.12, 1.26];
+    let fontIdx = 2;
+    function applyFontSize() {
+      lyricsEl.style.fontSize = FONT_SIZES[fontIdx] + 'rem';
+      btnFontDown.disabled = fontIdx === 0;
+      btnFontUp.disabled   = fontIdx === FONT_SIZES.length - 1;
+    }
+    btnFontUp.addEventListener('click', () => { if (fontIdx < FONT_SIZES.length - 1) { fontIdx++; applyFontSize(); } });
+    btnFontDown.addEventListener('click', () => { if (fontIdx > 0) { fontIdx--; applyFontSize(); } });
+    applyFontSize();
+
+    // Day / Night
+    let isDay = false;
+    btnTheme.addEventListener('click', () => {
+      isDay = !isDay;
+      document.body.classList.toggle('day', isDay);
+      btnTheme.textContent = isDay ? '🌙' : '☀️';
+    });
+
+    // Playlist
     const params = new URLSearchParams(location.search);
     const currentUrl = params.get('url') || '';
     let idx = PLAYLIST.findIndex(s => s.url === currentUrl);
@@ -203,7 +292,7 @@
         lyricsEl.textContent = await resp.text();
       } catch {
         lyricsEl.className = 'loading';
-        lyricsEl.textContent = 'No s\'ha pogut carregar la lletra.';
+        lyricsEl.textContent = "No s'ha pogut carregar la lletra.";
       }
     }
 
@@ -215,17 +304,12 @@
       audio.src = toAudioUrl(song.url);
       btnPrev.disabled = idx === 0;
       btnNext.disabled = idx === PLAYLIST.length - 1;
-      const newParams = new URLSearchParams({ title: song.title, url: song.url });
-      history.replaceState(null, '', 'player.html?' + newParams.toString());
+      history.replaceState(null, '', 'player.html?' + new URLSearchParams({ title: song.title, url: song.url }));
       audio.play().catch(() => overlay.classList.add('visible'));
       if (song.lyrics) loadLyrics(song.lyrics);
     }
 
-    overlay.addEventListener('click', () => {
-      audio.play();
-      overlay.classList.remove('visible');
-    });
-
+    overlay.addEventListener('click', () => { audio.play(); overlay.classList.remove('visible'); });
     btnPrev.addEventListener('click', () => { if (idx > 0) loadSong(idx - 1); });
     btnNext.addEventListener('click', () => { if (idx < PLAYLIST.length - 1) loadSong(idx + 1); });
     audio.addEventListener('ended', () => { loadSong((idx + 1) % PLAYLIST.length); });
