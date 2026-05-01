@@ -17,7 +17,7 @@
       align-items: center;
       justify-content: center;
       padding: 40px 20px;
-      gap: 32px;
+      gap: 28px;
     }
     #title {
       font-size: 1.6rem;
@@ -27,6 +27,28 @@
     audio {
       width: 100%;
       max-width: 500px;
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 16px;
+    }
+    .nav-btn {
+      background: none;
+      border: 1px solid #a8d8ea;
+      color: #a8d8ea;
+      font-size: 1.5rem;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: #a8d8ea;
+      color: #1a1a2e;
+    }
+    .nav-btn:disabled {
+      opacity: 0.25;
+      cursor: default;
     }
     .back {
       display: inline-flex;
@@ -61,10 +83,7 @@
       font-size: 5rem;
       animation: pulse 1.4s ease-in-out infinite;
     }
-    #tap-label {
-      font-size: 1.3rem;
-      color: #a8d8ea;
-    }
+    #tap-label { font-size: 1.3rem; color: #a8d8ea; }
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.15); opacity: 0.7; }
@@ -74,6 +93,10 @@
 <body>
   <h1 id="title"></h1>
   <audio id="player" controls playsinline></audio>
+  <div class="nav-buttons">
+    <button class="nav-btn" id="btn-prev">&#9664;&#9664;</button>
+    <button class="nav-btn" id="btn-next">&#9654;&#9654;</button>
+  </div>
   <a class="back" href="italianes.html">&#8592; Torna a la playlist</a>
 
   <div id="tap-overlay">
@@ -82,26 +105,64 @@
   </div>
 
   <script>
-    const params = new URLSearchParams(location.search);
-    const title = params.get('title') || '';
-    const url = params.get('url') || '';
+    const PLAYLIST = [
+      { title: "Certe notti", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/27_-_Certe_notti_g6zmlb.mp4" },
+      { title: "Questa e la mia vita", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/28_-_Questa_e_la_mia_vita_hr9s7z.mp4" },
+      { title: "Piccola stella senza cielo", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/29_-_Piccola_stella_senza_cielo_fflcwt.mp4" },
+      { title: "Tra palco e realta", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/44_-_Tra_palco_e_realta_wqya8r.mp4" },
+      { title: "Balliamo sul mondo", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/45_-_Balliamo_sul_mondo_pnwr5o.mp4" },
+      { title: "Urlando contro il cielo", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/46_-_Urlando_contro_il_cielo_h6ksjy.mp4" },
+      { title: "Figlio d'un cane", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/47_-_Figlio_d_un_cane_ahs0en.mp4" },
+      { title: "I Duri Hanno Due Cuori", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/48_-_I_Duri_Hanno_Due_Cuori_b31tbp.mp4" },
+      { title: "Lambrusco & pop corn", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/49_-_Lambrusco_pop_corn_udpidg.mp4" },
+      { title: "Hai Un Momento Dio", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/50_-_Hai_Un_Momento_Dio_wtstkh.mp4" },
+      { title: "Viva", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/51_-_Viva_ooghgj.mp4" },
+      { title: "Quella Che Non Sei", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/52_-_Quella_Che_Non_Sei_k50kaf.mp4" },
+      { title: "Non E Tempo Per Noi", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/53_-_Non_E_Tempo_Per_Noi_sqcwiv.mp4" },
+      { title: "Leggero", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/54_-_Leggero_tvqvmi.mp4" },
+      { title: "Ho perso le parole", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/55_-_Ho_perso_le_parole_mxkpq6.mp4" },
+      { title: "A che ora e la fine del mondo", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/56_-_A_che_ora_e_la_fine_del_mondo_tim85m.mp4" },
+      { title: "Non e tempo per noi", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/57_-_Non_e_tempo_per_noi_mwrmvp.mp4" },
+      { title: "Si viene e si va", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/58_-_Si_viene_e_si_va_pwibfk.mp4" },
+      { title: "Il giorno dei giorni", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645818/59_-_Il_giorno_dei_giorni_eldnzw.mp4" },
+      { title: "Eri bellissima", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/60_-_Eri_bellissima_nmy6hb.mp4" },
+      { title: "Happy hour", url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645818/61_-_Happy_hour_peqfjs.mp4" },
+    ];
 
-    document.title = title;
-    document.getElementById('title').textContent = title;
-
-    const audio = document.getElementById('player');
+    const audio   = document.getElementById('player');
     const overlay = document.getElementById('tap-overlay');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
 
-    audio.src = url;
+    const params = new URLSearchParams(location.search);
+    const currentUrl = params.get('url') || '';
+    let idx = PLAYLIST.findIndex(s => s.url === currentUrl);
+    if (idx === -1) idx = 0;
 
-    audio.play().catch(() => {
-      overlay.classList.add('visible');
-    });
+    function loadSong(i) {
+      idx = i;
+      const song = PLAYLIST[idx];
+      document.title = song.title;
+      document.getElementById('title').textContent = song.title;
+      audio.src = song.url;
+      btnPrev.disabled = idx === 0;
+      btnNext.disabled = idx === PLAYLIST.length - 1;
+      const newParams = new URLSearchParams({ title: song.title, url: song.url });
+      history.replaceState(null, '', 'player.html?' + newParams.toString());
+      audio.play().catch(() => {
+        overlay.classList.add('visible');
+      });
+    }
 
     overlay.addEventListener('click', () => {
       audio.play();
       overlay.classList.remove('visible');
     });
+
+    btnPrev.addEventListener('click', () => { if (idx > 0) loadSong(idx - 1); });
+    btnNext.addEventListener('click', () => { if (idx < PLAYLIST.length - 1) loadSong(idx + 1); });
+
+    loadSong(idx);
   </script>
 </body>
 </html>
