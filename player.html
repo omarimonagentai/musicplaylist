@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reproductor</title>
-  <link rel="icon" href="favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -44,19 +44,64 @@
       background: #f7cac9;
       color: #1a1a2e;
     }
+    #tap-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 26, 46, 0.92);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    #tap-overlay.visible { display: flex; }
+    #tap-icon {
+      font-size: 5rem;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    #tap-label {
+      font-size: 1.3rem;
+      color: #a8d8ea;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.7; }
+    }
   </style>
 </head>
 <body>
   <h1 id="title"></h1>
-  <audio id="player" controls autoplay></audio>
+  <audio id="player" controls playsinline></audio>
   <a class="back" href="italianes.html">&#8592; Torna a la playlist</a>
+
+  <div id="tap-overlay">
+    <div id="tap-icon">▶️</div>
+    <div id="tap-label">Toca per reproduir</div>
+  </div>
+
   <script>
     const params = new URLSearchParams(location.search);
     const title = params.get('title') || '';
     const url = params.get('url') || '';
+
     document.title = title;
     document.getElementById('title').textContent = title;
-    document.getElementById('player').src = url;
+
+    const audio = document.getElementById('player');
+    const overlay = document.getElementById('tap-overlay');
+
+    audio.src = url;
+
+    audio.play().catch(() => {
+      overlay.classList.add('visible');
+    });
+
+    overlay.addEventListener('click', () => {
+      audio.play();
+      overlay.classList.remove('visible');
+    });
   </script>
 </body>
 </html>
