@@ -149,9 +149,9 @@
 
   <script>
     const PLAYLIST = [
-      { title: "Certe notti",                    url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/27_-_Certe_notti_g6zmlb.mp4",                                    lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651514/lyrics/27%20-%20Certe%20notti.txt" },
-      { title: "Questa e la mia vita",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/28_-_Questa_e_la_mia_vita_hr9s7z.mp4",                       lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651527/lyrics/28%20-%20Questa%20e%20la%20mia%20vita.txt" },
-      { title: "Piccola stella senza cielo",     url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/29_-_Piccola_stella_senza_cielo_fflcwt.mp4",               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651536/lyrics/29%20-%20Piccola%20stella%20senza%20cielo.txt" },
+      { title: "Certe notti",                    url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/27_-_Certe_notti_g6zmlb.mp4",                                    lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652260/27_-_Certe_notti_jpsfkc.txt" },
+      { title: "Questa e la mia vita",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/28_-_Questa_e_la_mia_vita_hr9s7z.mp4",                       lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652259/28_-_Questa_e_la_mia_vita_bybvz6.txt" },
+      { title: "Piccola stella senza cielo",     url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/29_-_Piccola_stella_senza_cielo_fflcwt.mp4",               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652258/29_-_Piccola_stella_senza_cielo_nhxh52.txt" },
       { title: "Tra palco e realta",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/44_-_Tra_palco_e_realta_wqya8r.mp4",                        lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651542/lyrics/44%20-%20Tra%20palco%20e%20realta.txt" },
       { title: "Balliamo sul mondo",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/45_-_Balliamo_sul_mondo_pnwr5o.mp4",                        lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651543/lyrics/45%20-%20Balliamo%20sul%20mondo.txt" },
       { title: "Urlando contro il cielo",        url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/46_-_Urlando_contro_il_cielo_h6ksjy.mp4",                  lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651548/lyrics/46%20-%20Urlando%20contro%20il%20cielo.txt" },
@@ -180,11 +180,11 @@
         .replace(/\.mp4$/, '.mp3');
     }
 
-    const audio          = document.getElementById('player');
-    const overlay        = document.getElementById('tap-overlay');
-    const btnPrev        = document.getElementById('btn-prev');
-    const btnNext        = document.getElementById('btn-next');
-    const lyricsEl       = document.getElementById('lyrics');
+    const audio           = document.getElementById('player');
+    const overlay         = document.getElementById('tap-overlay');
+    const btnPrev         = document.getElementById('btn-prev');
+    const btnNext         = document.getElementById('btn-next');
+    const lyricsEl        = document.getElementById('lyrics');
     const lyricsContainer = document.getElementById('lyrics-container');
 
     const params = new URLSearchParams(location.search);
