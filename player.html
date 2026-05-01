@@ -74,20 +74,20 @@
       max-width: 480px;
     }
 
-    /* Controls row */
     .controls {
       display: flex;
       align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 6px;
+      flex-wrap: nowrap;
       justify-content: center;
     }
 
     .sep {
       width: 1px;
-      height: 18px;
+      height: 16px;
       background: var(--header-border);
       margin: 0 2px;
+      flex-shrink: 0;
     }
 
     .ctrl-btn {
@@ -95,12 +95,13 @@
       border: 1px solid var(--btn);
       color: var(--btn);
       font-size: 0.78rem;
-      padding: 4px 11px;
+      padding: 4px 10px;
       border-radius: 20px;
       cursor: pointer;
       transition: background 0.18s, color 0.18s, border-color 0.3s;
       line-height: 1.4;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .ctrl-btn:hover:not(:disabled) {
       background: var(--btn-hover-bg);
@@ -111,27 +112,22 @@
       cursor: default;
     }
 
-    .ctrl-btn.theme-btn {
-      font-size: 0.88rem;
-      padding: 4px 10px;
-    }
-
     .back {
       color: var(--back);
       text-decoration: none;
       font-size: 0.78rem;
       border: 1px solid var(--back);
-      padding: 4px 12px;
+      padding: 4px 10px;
       border-radius: 20px;
       transition: background 0.18s, color 0.18s, border-color 0.3s;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .back:hover {
       background: var(--back-hover-bg);
       color: var(--back-hover-fg);
     }
 
-    /* Lyrics */
     #lyrics-container {
       flex: 1;
       overflow-y: auto;
@@ -152,7 +148,6 @@
       font-style: italic;
     }
 
-    /* Tap overlay */
     #tap-overlay {
       display: none;
       position: fixed;
@@ -184,24 +179,14 @@
     <audio id="player" controls playsinline></audio>
 
     <div class="controls">
-      <!-- Prev / Next -->
-      <button class="ctrl-btn" id="btn-prev">&#9664;&#9664; Anterior</button>
-      <button class="ctrl-btn" id="btn-next">Següent &#9654;&#9654;</button>
-
+      <button class="ctrl-btn" id="btn-prev">&#9664;&#9664;</button>
+      <button class="ctrl-btn" id="btn-next">&#9654;&#9654;</button>
       <div class="sep"></div>
-
-      <!-- Day / Night -->
-      <button class="ctrl-btn theme-btn" id="btn-theme" title="Mode dia / nit">🌙</button>
-
+      <button class="ctrl-btn" id="btn-theme" title="Mode dia / nit">🌙</button>
       <div class="sep"></div>
-
-      <!-- Font size -->
       <button class="ctrl-btn" id="btn-font-down" title="Reduir lletra">A−</button>
       <button class="ctrl-btn" id="btn-font-up"   title="Augmentar lletra">A+</button>
-
       <div class="sep"></div>
-
-      <!-- Back -->
       <a class="back" href="ligabue.html">&#8592; Playlist</a>
     </div>
   </div>
@@ -240,7 +225,6 @@
       { title: "Happy hour",                     url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645818/61_-_Happy_hour_peqfjs.mp4",                         lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651565/lyrics/61%20-%20Happy%20hour.txt" },
     ];
 
-    // iOS Safari reads video container duration; MP3 via Cloudinary f_mp3 fixes this.
     function toAudioUrl(mp4url) {
       return mp4url.replace('/video/upload/', '/video/upload/f_mp3/').replace(/\.mp4$/, '.mp3');
     }
@@ -255,7 +239,6 @@
     const lyricsEl        = document.getElementById('lyrics');
     const lyricsContainer = document.getElementById('lyrics-container');
 
-    // Font size
     const FONT_SIZES = [0.82, 0.91, 1.0, 1.12, 1.26];
     let fontIdx = 2;
     function applyFontSize() {
@@ -263,11 +246,10 @@
       btnFontDown.disabled = fontIdx === 0;
       btnFontUp.disabled   = fontIdx === FONT_SIZES.length - 1;
     }
-    btnFontUp.addEventListener('click', () => { if (fontIdx < FONT_SIZES.length - 1) { fontIdx++; applyFontSize(); } });
+    btnFontUp.addEventListener('click',   () => { if (fontIdx < FONT_SIZES.length - 1) { fontIdx++; applyFontSize(); } });
     btnFontDown.addEventListener('click', () => { if (fontIdx > 0) { fontIdx--; applyFontSize(); } });
     applyFontSize();
 
-    // Day / Night
     let isDay = false;
     btnTheme.addEventListener('click', () => {
       isDay = !isDay;
@@ -275,7 +257,6 @@
       btnTheme.textContent = isDay ? '🌙' : '☀️';
     });
 
-    // Playlist
     const params = new URLSearchParams(location.search);
     const currentUrl = params.get('url') || '';
     let idx = PLAYLIST.findIndex(s => s.url === currentUrl);
