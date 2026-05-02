@@ -1,3 +1,53 @@
+{
+    "title":  "Ligabue - Barcelona 01/05/2026",
+    "songs":  [
+                  {
+                      "num":  "01",
+                      "title":  "I Duri Hanno Due Cuori",
+                      "artist":  "Ligabue",
+                      "audio":  "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/I_Duri_Hanno_Due_Cuori.mp4",
+                      "lyrics":  "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651549/I%20Duri%20Hanno%20Due%20Cuori.txt"
+                  },
+                  {
+                      "num":  "02",
+                      "title":  "Sulla mia strada",
+                      "artist":  "Ligabue",
+                      "audio":  "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777722223/Sulla_mia_strada.mp4",
+                      "lyrics":  "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777722104/Sulla%20mia%20strada.txt"
+                  },
+                  {
+                      "num":  "03",
+                      "title":  "Una vita da mediano",
+                      "artist":  "Ligabue",
+                      "audio":  "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777722225/Una_vita_da_mediano.mp4",
+                      "lyrics":  "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777722104/Una%20vita%20da%20mediano.txt"
+                  },
+                  {
+                      "num":  "04",
+                      "title":  "Eri bellissima",
+                      "artist":  "Ligabue",
+                      "audio":  "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/Eri_bellissima.mp4",
+                      "lyrics":  "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651565/Eri%20bellissima.txt"
+                  },
+                  {
+                      "num":  "05",
+                      "title":  "Questa Ã¨ la mia vita",
+                      "artist":  "Ligabue",
+                      "audio":  "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/Questa_e_la_mia_vita.mp4",
+                      "lyrics":  "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652259/Questa_e_la_mia_vita.txt"
+                  },
+                  {
+                      "num":  "06",
+                      "title":  "Voglio volere",
+                      "artist":  "Ligabue",
+                      "audio":  "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777722224/Voglio_volere.mp4",
+                      "lyrics":  "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777722105/Voglio%20volere.txt"
+                  },
+                  {
+                      "num":  "07",
+                      "title":  "Ti sento",
+                      "artist":  "Ligabue",
+                      "audio":  "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777722227/Ti_sento.mp4",
                       "lyrics":  "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777722105/Ti%20sento.txt"
                   },
                   {
@@ -37,7 +87,7 @@
                   },
                   {
                       "num":  "13",
-                      "title":  "SarÃ  un bel souvenir",
+                      "title":  "SarÃ  un bel souvenir",
                       "artist":  "Ligabue",
                       "audio":  "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777722231/Sara_un_bel_souvenir.mp4",
                       "lyrics":  "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777722107/Sara%20un%20bel%20souvenir.txt"
@@ -93,7 +143,7 @@
                   },
                   {
                       "num":  "21",
-                      "title":  "Tra palco e realtÃ ",
+                      "title":  "Tra palco e realtÃ ",
                       "artist":  "Ligabue",
                       "audio":  "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/Tra_palco_e_realta.mp4",
                       "lyrics":  "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651542/Tra%20palco%20e%20realta.txt"
