@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ligabue</title>
+  <title>Playlist</title>
   <link rel="icon" href="favicon.svg">
   <style>
     body {
@@ -23,17 +23,22 @@
   </style>
 </head>
 <body>
-  <h1>Ligabue - Barcelona 01-05-2026</h1>
+  <h1 id="title"></h1>
   <ol id="list"></ol>
   <script>
-    fetch('playlists/ligabue.json')
+    const params = new URLSearchParams(location.search);
+    const playlistName = params.get('playlist') || '';
+
+    fetch(`playlists/${playlistName}.json`)
       .then(r => r.json())
-      .then(songs => {
+      .then(data => {
+        document.title = data.title;
+        document.getElementById('title').textContent = data.title;
         const ol = document.getElementById('list');
-        songs.forEach((s, i) => {
+        data.songs.forEach((s, i) => {
           const li = document.createElement('li');
           if (s.audio) {
-            li.innerHTML = `<a href="player.html?playlist=ligabue&idx=${i}">${s.title}</a>`;
+            li.innerHTML = `<a href="player.html?playlist=${playlistName}&idx=${i}">${s.title}</a>`;
           } else {
             li.innerHTML = `<span class="unavailable">${s.title}</span>`;
           }
