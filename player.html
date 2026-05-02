@@ -34,9 +34,7 @@
       --lyrics:       #2c2c2c;
       --loading:      #999;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       background: var(--bg);
@@ -47,7 +45,6 @@
       flex-direction: column;
       transition: background 0.3s, color 0.3s;
     }
-
     #header {
       background: var(--header-bg);
       border-bottom: 1px solid var(--header-border);
@@ -60,7 +57,6 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
       transition: background 0.3s, border-color 0.3s;
     }
-
     #title {
       font-size: 1.2rem;
       font-weight: 600;
@@ -68,12 +64,7 @@
       text-align: center;
       transition: color 0.3s;
     }
-
-    audio {
-      width: 100%;
-      max-width: 480px;
-    }
-
+    audio { width: 100%; max-width: 480px; }
     .controls {
       display: flex;
       align-items: center;
@@ -81,15 +72,7 @@
       flex-wrap: nowrap;
       justify-content: center;
     }
-
-    .sep {
-      width: 1px;
-      height: 16px;
-      background: var(--header-border);
-      margin: 0 2px;
-      flex-shrink: 0;
-    }
-
+    .sep { width: 1px; height: 16px; background: var(--header-border); margin: 0 2px; flex-shrink: 0; }
     .ctrl-btn {
       background: none;
       border: 1px solid var(--btn);
@@ -103,15 +86,8 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-    .ctrl-btn:hover:not(:disabled) {
-      background: var(--btn-hover-bg);
-      color: var(--btn-hover-fg);
-    }
-    .ctrl-btn:disabled {
-      opacity: 0.22;
-      cursor: default;
-    }
-
+    .ctrl-btn:hover:not(:disabled) { background: var(--btn-hover-bg); color: var(--btn-hover-fg); }
+    .ctrl-btn:disabled { opacity: 0.22; cursor: default; }
     .back {
       color: var(--back);
       text-decoration: none;
@@ -123,17 +99,8 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-    .back:hover {
-      background: var(--back-hover-bg);
-      color: var(--back-hover-fg);
-    }
-
-    #lyrics-container {
-      flex: 1;
-      overflow-y: auto;
-      padding: 24px 24px 48px;
-    }
-
+    .back:hover { background: var(--back-hover-bg); color: var(--back-hover-fg); }
+    #lyrics-container { flex: 1; overflow-y: auto; padding: 24px 24px 48px; }
     #lyrics {
       white-space: pre-wrap;
       line-height: 1.9;
@@ -143,11 +110,7 @@
       margin: 0 auto;
       transition: font-size 0.2s, color 0.3s;
     }
-    #lyrics.loading {
-      color: var(--loading);
-      font-style: italic;
-    }
-
+    #lyrics.loading { color: var(--loading); font-style: italic; }
     #tap-overlay {
       display: none;
       position: fixed;
@@ -161,10 +124,7 @@
       z-index: 10;
     }
     #tap-overlay.visible { display: flex; }
-    #tap-icon {
-      font-size: 4rem;
-      animation: pulse 1.4s ease-in-out infinite;
-    }
+    #tap-icon { font-size: 4rem; animation: pulse 1.4s ease-in-out infinite; }
     #tap-label { font-size: 1.2rem; color: #a8d8ea; }
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 1; }
@@ -173,11 +133,9 @@
   </style>
 </head>
 <body>
-
   <div id="header">
     <h1 id="title"></h1>
     <audio id="player" controls playsinline></audio>
-
     <div class="controls">
       <button class="ctrl-btn" id="btn-prev">&#9664;&#9664;</button>
       <button class="ctrl-btn" id="btn-next">&#9654;&#9654;</button>
@@ -187,58 +145,42 @@
       <button class="ctrl-btn" id="btn-font-down" title="Reduir lletra">A−</button>
       <button class="ctrl-btn" id="btn-font-up"   title="Augmentar lletra">A+</button>
       <div class="sep"></div>
-      <a class="back" href="ligabue.html">&#8592; Playlist</a>
+      <a class="back" id="btn-back" href="#">&#8592; Playlist</a>
     </div>
   </div>
-
   <div id="lyrics-container">
-    <div id="lyrics" class="loading">Carregant lletra...</div>
+    <div id="lyrics" class="loading">Carregant...</div>
   </div>
-
   <div id="tap-overlay">
     <div id="tap-icon">▶️</div>
     <div id="tap-label">Toca per reproduir</div>
   </div>
 
   <script>
-    const PLAYLIST = [
-      { title: "A che ora e la fine del mondo",  url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/56_-_A_che_ora_e_la_fine_del_mondo_tim85m.mp4",    lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651561/lyrics/56%20-%20A%20che%20ora%20e%20la%20fine%20del%20mondo.txt" },
-      { title: "Balliamo sul mondo",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/45_-_Balliamo_sul_mondo_pnwr5o.mp4",                  lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651543/lyrics/45%20-%20Balliamo%20sul%20mondo.txt" },
-      { title: "Certe notti",                    url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/27_-_Certe_notti_g6zmlb.mp4",                          lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652260/27_-_Certe_notti_jpsfkc.txt" },
-      { title: "Eri bellissima",                 url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/60_-_Eri_bellissima_nmy6hb.mp4",                       lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651565/lyrics/60%20-%20Eri%20bellissima.txt" },
-      { title: "Figlio d'un cane",               url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/47_-_Figlio_d_un_cane_ahs0en.mp4",                     lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651548/lyrics/47%20-%20Figlio%20d%27un%20cane.txt" },
-      { title: "Hai Un Momento Dio",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/50_-_Hai_Un_Momento_Dio_wtstkh.mp4",                   lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651552/lyrics/50%20-%20Hai%20Un%20Momento%20Dio.txt" },
-      { title: "Happy hour",                     url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645818/61_-_Happy_hour_peqfjs.mp4",                           lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651565/lyrics/61%20-%20Happy%20hour.txt" },
-      { title: "Ho perso le parole",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/55_-_Ho_perso_le_parole_mxkpq6.mp4",                   lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651560/lyrics/55%20-%20Ho%20perso%20le%20parole.txt" },
-      { title: "I Duri Hanno Due Cuori",         url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/48_-_I_Duri_Hanno_Due_Cuori_b31tbp.mp4",               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651549/lyrics/48%20-%20I%20Duri%20Hanno%20Due%20Cuori.txt" },
-      { title: "Il giorno dei giorni",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645818/59_-_Il_giorno_dei_giorni_eldnzw.mp4",                 lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651564/lyrics/59%20-%20Il%20giorno%20dei%20giorni.txt" },
-      { title: "Lambrusco & pop corn",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/49_-_Lambrusco_pop_corn_udpidg.mp4",                   lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651590/lyrics/49%20-%20Lambrusco%20and%20pop%20corn.txt" },
-      { title: "Leggero",                        url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/54_-_Leggero_tvqvmi.mp4",                             lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651558/lyrics/54%20-%20Leggero.txt" },
-      { title: "Non e tempo per noi",            url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/57_-_Non_e_tempo_per_noi_mwrmvp.mp4",                 lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651563/lyrics/57%20-%20Non%20e%20tempo%20per%20noi.txt" },
-      { title: "Non E Tempo Per Noi",            url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/53_-_Non_E_Tempo_Per_Noi_sqcwiv.mp4",                 lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651558/lyrics/53%20-%20Non%20E%20Tempo%20Per%20Noi.txt" },
-      { title: "Piccola stella senza cielo",     url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/29_-_Piccola_stella_senza_cielo_fflcwt.mp4",         lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652258/29_-_Piccola_stella_senza_cielo_nhxh52.txt" },
-      { title: "Quella Che Non Sei",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/52_-_Quella_Che_Non_Sei_k50kaf.mp4",                 lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651556/lyrics/52%20-%20Quella%20Che%20Non%20Sei.txt" },
-      { title: "Questa e la mia vita",           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/28_-_Questa_e_la_mia_vita_hr9s7z.mp4",               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652259/28_-_Questa_e_la_mia_vita_bybvz6.txt" },
-      { title: "Si viene e si va",               url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645817/58_-_Si_viene_e_si_va_pwibfk.mp4",                   lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651564/lyrics/58%20-%20Si%20viene%20e%20si%20va.txt" },
-      { title: "Tra palco e realta",             url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/44_-_Tra_palco_e_realta_wqya8r.mp4",                  lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651542/lyrics/44%20-%20Tra%20palco%20e%20realta.txt" },
-      { title: "Urlando contro il cielo",        url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/46_-_Urlando_contro_il_cielo_h6ksjy.mp4",           lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651548/lyrics/46%20-%20Urlando%20contro%20il%20cielo.txt" },
-      { title: "Viva",                           url: "https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645816/51_-_Viva_ooghgj.mp4",                               lyrics: "https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651554/lyrics/51%20-%20Viva.txt" },
-    ];
-
     function toAudioUrl(mp4url) {
       return mp4url.replace('/video/upload/', '/video/upload/f_mp3/').replace(/\.mp4$/, '.mp3');
     }
 
-    const audio           = document.getElementById('player');
+    const params       = new URLSearchParams(location.search);
+    const playlistName = params.get('playlist') || '';
+    let   currentIdx   = parseInt(params.get('idx') || '0', 10);
+    let   playlist     = [];
+
+    const audioEl         = document.getElementById('player');
     const overlay         = document.getElementById('tap-overlay');
     const btnPrev         = document.getElementById('btn-prev');
     const btnNext         = document.getElementById('btn-next');
     const btnTheme        = document.getElementById('btn-theme');
     const btnFontUp       = document.getElementById('btn-font-up');
     const btnFontDown     = document.getElementById('btn-font-down');
+    const btnBack         = document.getElementById('btn-back');
     const lyricsEl        = document.getElementById('lyrics');
     const lyricsContainer = document.getElementById('lyrics-container');
 
+    // Back link points to the playlist page
+    if (playlistName) btnBack.href = playlistName + '.html';
+
+    // Font size
     const FONT_SIZES = [0.82, 0.91, 1.0, 1.12, 1.26, 1.42, 1.6];
     let fontIdx = 2;
     function applyFontSize() {
@@ -250,6 +192,7 @@
     btnFontDown.addEventListener('click', () => { if (fontIdx > 0) { fontIdx--; applyFontSize(); } });
     applyFontSize();
 
+    // Day / Night
     let isDay = false;
     btnTheme.addEventListener('click', () => {
       isDay = !isDay;
@@ -257,11 +200,7 @@
       btnTheme.textContent = isDay ? '🌙' : '☀️';
     });
 
-    const params = new URLSearchParams(location.search);
-    const currentUrl = params.get('url') || '';
-    let idx = PLAYLIST.findIndex(s => s.url === currentUrl);
-    if (idx === -1) idx = 0;
-
+    // Lyrics loader
     async function loadLyrics(url) {
       lyricsEl.className = 'loading';
       lyricsEl.textContent = 'Carregant lletra...';
@@ -277,25 +216,65 @@
       }
     }
 
-    function loadSong(i) {
-      idx = i;
-      const song = PLAYLIST[idx];
-      document.title = song.title;
-      document.getElementById('title').textContent = song.title;
-      audio.src = toAudioUrl(song.url);
-      btnPrev.disabled = idx === 0;
-      btnNext.disabled = idx === PLAYLIST.length - 1;
-      history.replaceState(null, '', 'player.html?' + new URLSearchParams({ title: song.title, url: song.url }));
-      audio.play().catch(() => overlay.classList.add('visible'));
-      if (song.lyrics) loadLyrics(song.lyrics);
+    function updateNav() {
+      btnPrev.disabled = currentIdx === 0;
+      btnNext.disabled = currentIdx === playlist.length - 1;
     }
 
-    overlay.addEventListener('click', () => { audio.play(); overlay.classList.remove('visible'); });
-    btnPrev.addEventListener('click', () => { if (idx > 0) loadSong(idx - 1); });
-    btnNext.addEventListener('click', () => { if (idx < PLAYLIST.length - 1) loadSong(idx + 1); });
-    audio.addEventListener('ended', () => { loadSong((idx + 1) % PLAYLIST.length); });
+    function loadSong(i) {
+      currentIdx = i;
+      const song = playlist[i];
+      document.title = song.title;
+      document.getElementById('title').textContent = song.title;
+      history.replaceState(null, '', `player.html?playlist=${playlistName}&idx=${i}`);
+      updateNav();
 
-    loadSong(idx);
+      if (song.audio) {
+        audioEl.src = toAudioUrl(song.audio);
+        audioEl.style.display = '';
+        audioEl.play().catch(() => overlay.classList.add('visible'));
+      } else {
+        audioEl.src = '';
+        audioEl.style.display = 'none';
+        lyricsEl.className = 'loading';
+        lyricsEl.textContent = 'Cançó no disponible encara.';
+        lyricsContainer.scrollTop = 0;
+        return;
+      }
+
+      if (song.lyrics) {
+        loadLyrics(song.lyrics);
+      } else {
+        lyricsEl.className = 'loading';
+        lyricsEl.textContent = 'Lletra no disponible.';
+      }
+    }
+
+    overlay.addEventListener('click', () => { audioEl.play(); overlay.classList.remove('visible'); });
+    btnPrev.addEventListener('click', () => { if (currentIdx > 0) loadSong(currentIdx - 1); });
+    btnNext.addEventListener('click', () => { if (currentIdx < playlist.length - 1) loadSong(currentIdx + 1); });
+    audioEl.addEventListener('ended', () => {
+      // Skip to next available song
+      let next = currentIdx + 1;
+      while (next < playlist.length && !playlist[next].audio) next++;
+      if (next < playlist.length) loadSong(next);
+    });
+
+    // Init: fetch playlist then load song
+    async function init() {
+      try {
+        const resp = await fetch(`playlists/${playlistName}.json`);
+        playlist = await resp.json();
+        if (currentIdx < 0 || currentIdx >= playlist.length) currentIdx = 0;
+        loadSong(currentIdx);
+      } catch {
+        document.getElementById('title').textContent = 'Error carregant la playlist';
+        lyricsEl.className = 'loading';
+        lyricsEl.textContent = 'No s\'ha pogut carregar la playlist.';
+      }
+    }
+
+    init();
   </script>
 </body>
 </html>
