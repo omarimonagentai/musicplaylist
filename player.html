@@ -141,6 +141,7 @@
       <button class="ctrl-btn" id="btn-next">&#9654;&#9654;</button>
       <div class="sep"></div>
       <button class="ctrl-btn" id="btn-theme" title="Mode dia / nit">☀️</button>
+      <button class="ctrl-btn" id="btn-youtube" title="Veure vídeo a YouTube">▶ YouTube</button>
       <div class="sep"></div>
       <button class="ctrl-btn" id="btn-font-down" title="Reduir lletra">A−</button>
       <button class="ctrl-btn" id="btn-font-up"   title="Augmentar lletra">A+</button>
@@ -171,6 +172,7 @@
     const btnPrev         = document.getElementById('btn-prev');
     const btnNext         = document.getElementById('btn-next');
     const btnTheme        = document.getElementById('btn-theme');
+    const btnYoutube      = document.getElementById('btn-youtube');
     const btnFontUp       = document.getElementById('btn-font-up');
     const btnFontDown     = document.getElementById('btn-font-down');
     const btnBack         = document.getElementById('btn-back');
@@ -200,6 +202,13 @@
       btnTheme.textContent = isDay ? '🌙' : '☀️';
     });
 
+    btnYoutube.addEventListener('click', () => {
+      const song = playlist[currentIdx];
+      if (song && song.youtube) {
+        window.open(song.youtube, '_blank', 'noopener');
+      }
+    });
+
     // Lyrics loader
     async function loadLyrics(url) {
       lyricsEl.className = 'loading';
@@ -226,6 +235,7 @@
       const song = playlist[i];
       document.title = song.title;
       document.getElementById('title').textContent = song.title;
+      btnYoutube.disabled = !song.youtube;
       history.replaceState(null, '', `player.html?playlist=${playlistName}&idx=${i}`);
       updateNav();
 
