@@ -178,7 +178,7 @@
     const lyricsContainer = document.getElementById('lyrics-container');
 
     // Back link points to the playlist page
-    if (playlistName) btnBack.href = playlistName + '.html';
+    if (playlistName) btnBack.href = `playlist.html?playlist=${playlistName}`;
 
     // Font size
     const FONT_SIZES = [0.82, 0.91, 1.0, 1.12, 1.26, 1.42, 1.6];
@@ -264,7 +264,8 @@
     async function init() {
       try {
         const resp = await fetch(`playlists/${playlistName}.json`);
-        playlist = await resp.json();
+        const data = await resp.json();
+        playlist = data.songs;
         if (currentIdx < 0 || currentIdx >= playlist.length) currentIdx = 0;
         loadSong(currentIdx);
       } catch {

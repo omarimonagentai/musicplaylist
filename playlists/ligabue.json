@@ -1,4 +1,6 @@
-[
+{
+  "title": "Ligabue - Barcelona 01/05/2025",
+  "songs": [
   {"num":"01","title":"I Duri Hanno Due Cuori","artist":"Ligabue","audio":"https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/I_Duri_Hanno_Due_Cuori.mp4","lyrics":"https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651549/I%20Duri%20Hanno%20Due%20Cuori.txt"},
   {"num":"02","title":"Sulla mia strada","artist":"Ligabue","audio":"https://res.cloudinary.com/dmtnhepkp/video/upload/v1777722223/Sulla_mia_strada.mp4","lyrics":"https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777722104/Sulla%20mia%20strada.txt"},
   {"num":"03","title":"Una vita da mediano","artist":"Ligabue","audio":"https://res.cloudinary.com/dmtnhepkp/video/upload/v1777722225/Una_vita_da_mediano.mp4","lyrics":"https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777722104/Una%20vita%20da%20mediano.txt"},
@@ -22,4 +24,5 @@
   {"num":"21","title":"Tra palco e realtà","artist":"Ligabue","audio":"https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/Tra_palco_e_realta.mp4","lyrics":"https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651542/Tra%20palco%20e%20realta.txt"},
   {"num":"22","title":"Urlando contro il cielo","artist":"Ligabue","audio":"https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645815/Urlando_contro_il_cielo.mp4","lyrics":"https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777651548/Urlando%20contro%20il%20cielo.txt"},
   {"num":"23","title":"Certe notti","artist":"Ligabue","audio":"https://res.cloudinary.com/dmtnhepkp/video/upload/v1777645814/Certe_notti.mp4","lyrics":"https://res.cloudinary.com/dmtnhepkp/raw/upload/v1777652260/Certe_notti.txt"}
-]
+  ]
+}
